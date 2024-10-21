@@ -16,6 +16,11 @@ public class ContactoService {
         return agenda;
     }
 
+    //guardar un nuevo contacto
+    public void guardarContacto(Contacto contacto){
+        agenda.put(contacto.getNombre(), contacto);
+    }
+
     // Eliminar un contacto, si no es favorito
     public boolean eliminarContacto(String nombre) {
         Contacto contacto = agenda.get(nombre);
