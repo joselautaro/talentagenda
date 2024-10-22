@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contacto</title>
+    <style>
+        .toast{
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+        }
+        .toast.show{
+            opacity: 1;
+        }
+        body{
+            background-color: #8d7373;
+            color: #fff;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        table{
+            margin:  auto;
+            width:  80%;
+            border-collapse: collapse;
+        }
+        th, td{
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        h1{
+            text-align: center;
+        }
+        a.agregar-contacto{
+            display: block;
+            margin:  20px auto;
+            padding: 10px 20px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+        a.agregar-contacto:hover{
+            background-color: #ddd;
+            color: #8d7373;
+        }
+        .eliminar{
+            cursor: pointer;
+        }
+        .editar{
+            font-size: large;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Agenda de contactos</h1>
+
+    <a class="agregar-contacto" href="/agenda/nuevo">Agregar contacto</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Favorito</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${agenda}">
+                <td th:text="${entry.key}"></td>
+                <td th:text="${entry.value.telefono}"></td>
+                <td th:text="${entry.value.email}"></td>
+                <td>
+                    <!-- mostrar la estrella -->
+                    <form 
+                        th:action="@{´/agenda/favorito/´ + ${entry.key}}" method="post" 
+                        style="display: inline;">
+                        <button type="submit">
+                            <span th:if="${entry.value.favorito}">★</span>
+                            <span th:if="${!entry.value.favorito}">☆</span>
+                        </button>
+                     </form>
+                </td>
+                <td>
+                    <a class="editar" th:href="@{´/agenda/editar/´ + ${entry.key}}">🖊</a>
+                 <form 
+                 th:action="@{´/agenda/eliminar/´ + ${entry.key}}" 
+                 method="post"           
+                 style="display: inline;">
+                        <button 
+                            class="eliminar" 
+                            type="submit"     
+                            th:disable="${entry.value.favorito}">❌
+                         </button>
+                 </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="toast" id="toast" th:text="${message}"></div>
+
+    <script>
+        function showToast(){
+            let toast = document.getElementById("toast");
+            if( toast.textContent.trim() !== "" ){
+                toast.classList.add("show");
+                setTimeout(function(){
+                    toast.classList.remove("show");
+                }, 1500) //desaparece despues de un segundo y medio
+            }
+        }
+        //Ejecutar la funcion cuando la pagina se carge
+        window.onload = showToast;
+    </script>
+
+
+</body>
+
+</html>

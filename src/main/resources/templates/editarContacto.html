@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar contacto</title>
+    <style>
+        body{
+            background-color: #8d7373;
+            color: #fff;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        form{
+            margin: auto;
+            width: 50%;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        h1{
+            text-align: center;
+        }
+        label{
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Editar contacto</h1>
+    <form th:action="@{´/agenda/actualizar/´ + ${contacto.nombre}}" method="post">
+        <div>
+            <label>Nombre:</label>
+            <input type="text" name="nombre" th:value="${contacto.nombre}" readonly>
+        </div>
+        <div>
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" th:value="${contacto.telefono}" required>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" th:value="${contacto.email}" required>
+        </div>
+        <div>
+            <label>Favorito:</label>
+            <input type="checkbox" name="favorito" th:value="${contacto.favorito}">
+        </div>
+        <button type="submit">Actualizar</button>
+    </form>
+    
+</body>
+</html>

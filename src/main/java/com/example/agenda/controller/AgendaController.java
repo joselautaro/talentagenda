@@ -1,11 +1,16 @@
 package com.example.agenda.controller;
 
-import com.example.agenda.model.Contacto;
-import com.example.agenda.service.ContactoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.agenda.model.Contacto;
+import com.example.agenda.service.ContactoService;
 
 @Controller
 @RequestMapping("/agenda")
@@ -53,4 +58,26 @@ public class AgendaController {
         return "redirect:/agenda/";
     }
     
+    //muestra el formulario para editar un contacto
+    @GetMapping("/editar/{nombre}")
+    public String editarContacto(@PathVariable("nombre") String nombre, Model model){
+        Contacto contacto = contactoService.obtenerContactoPorNombre(nombre);
+        model.addAttribute("contacto", contacto);
+        return "editarContacto";
+    }
+    //actualiza los datos del contacto editado
+    @PostMapping("/actualizar/{nombre}")
+    public String actualizarContacto(@PathVariable("nombre")String nombreOriginal, @ModelAttribute Contacto contactoActualizado, RedirectAttributes redirectAttributes){
+        contactoService.actualizarContacto(nombreOriginal, contactoActualizado);
+        redirectAttributes.addFlashAttribute("message", "Contacto actualizado con éxito");
+        return "redirect:/agenda/";
+    }
+
+    //cambiar el estado de favorito de un contacto
+    @PostMapping("/favorito/{nombre}")
+    public String cambiarFavorito(@PathVariable("nombre")String nombre, RedirectAttributes redirectAttributes){
+        contactoService.cambiarFavorito(nombre);
+        redirectAttributes.addFlashAttribute("message", "Estado de favorito actualizado");
+        return "redirect:/agenda/";
+    }
 }
