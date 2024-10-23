@@ -106,8 +106,8 @@
                 </td>
                 <td>
                     <a class="editar" th:href="@{'/agenda/editar/' + ${entry.key}}">🖊</a>
-                    <form th:if="${!entry.value.favorito}" th:action="@{'/agenda/eliminar/' + ${entry.key}}" method="post" style="display: inline;">
-                        <button class="eliminar" type="submit" th:disable="${entry.value.favorito}">❌
+                    <form  th:action="@{'/agenda/eliminar/' + ${entry.key}}" method="post" style="display: inline;">
+                        <button class="eliminar" type="submit" th:disabled="${entry.value.favorito}">❌
                         </button>
                     </form>
                 </td>
