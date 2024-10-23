@@ -29,7 +29,7 @@
 <body>
 
     <h1>Editar contacto</h1>
-    <form th:action="@{´/agenda/actualizar/´ + ${contacto.nombre}}" method="post">
+    <form th:action="@{'/agenda/actualizar/' + ${contacto.nombre}}" method="post">
         <div>
             <label>Nombre:</label>
             <input type="text" name="nombre" th:value="${contacto.nombre}" readonly>
@@ -44,7 +44,7 @@
         </div>
         <div>
             <label>Favorito:</label>
-            <input type="checkbox" name="favorito" th:value="${contacto.favorito}">
+            <input type="checkbox" name="favorito" th:checked="${contacto.favorito}">
         </div>
         <button type="submit">Actualizar</button>
     </form>
